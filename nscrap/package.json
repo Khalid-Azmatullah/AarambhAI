@@ -1,0 +1,14 @@
+{
+  "name": "nscrap",
+  "version": "0.0.1",
+  "description": "scrapper for news and updates",
+  "main": "index.js",
+  "scripts": {
+    "test": "index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^23.6.0"
+  }
+}
