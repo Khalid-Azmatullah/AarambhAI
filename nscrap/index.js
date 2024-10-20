@@ -16,7 +16,7 @@ await page.locator('.OG1TB').click();
 
 const searchQuery = '.textbox';
 await page.waitForSelector(searchQuery);
-await page.locator('.textbox').fill('tcs');
+await page.locator('.textbox').fill('ADANIPOWER');
 
 await page.locator('.submit').click();
 // Wait and click on first result.
@@ -25,7 +25,7 @@ await page.locator('.submit').click();
 await page
 // Locate the full title with a unique string.
 const textSelector = await page
-  .locator('text/Tata Consultancy Services')
+  .locator('#read-more-div')
   .waitHandle();
 const fullTitle = await textSelector?.evaluate(el => el.textContent);
 
