@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "type": "module",
   "description": "Scrapper for news and updates",
-  "main": "index.js",
+  "main": "scrapeCompanyNames.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node scrapeCompanyNames.js"
   },
   "author": "Khalid Azmatullah",
   "license": "MIT"
