@@ -65,7 +65,7 @@ if (update === true) {
 };
 
 
-exec('node index.js', (error, stdout, stderr) => {
+exec('node toiScrapper/toiScrapper.js', (error, stdout, stderr) => {
   if (error) {
     console.error(`Error executing index.js: ${error.message}`);
     return;
