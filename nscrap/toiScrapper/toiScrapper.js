@@ -1,8 +1,4 @@
-const searchButtonClass = '.OG1TB'
-const searchInputAreaClass = '.textbox';
-const searchSubmitBtnClass = '.submit';
-
-const shortDescriptionId = '#read-more-div';
+const shortDescriptionId = '.dOabc';
 
 const articleColoumnClass = '.tabs_common';
 
@@ -14,36 +10,25 @@ const companyName = 'TCS';
 
 // import dependencies
 import puppeteer from 'puppeteer';
+import fs from 'fs';
 import { exec } from 'child_process';
 
 // launch puppeteer
 const browser = await puppeteer.launch();
 const page = await browser.newPage();
-
+page.setDefaultTimeout(60000);
 // go to timesOfIndia
-await page.goto('https://timesofindia.indiatimes.com/');
+await page.goto(`https://timesofindia.indiatimes.com/topic/${companyName}`);
 
-// navigate to company page
-await page.$eval(searchButtonClass, searchButton => {
-  searchButton.click()
-});
-
-await page.waitForSelector(searchInputAreaClass);
-await page.locator(searchInputAreaClass).fill(companyName);
-
-
-await page.$eval(searchSubmitBtnClass, btn => {
-  btn.click()
-});
+await page.setViewport({width: 1080, height: 1024});
 
 // get description if any
-await page.waitForSelector(shortDescriptionId);
 const companyData = await page.$(shortDescriptionId, (text) => {
   return text.textContent
 });
 
 // get article links if any
-const links = await page.evaluate((articleLinkClass) => {
+const unfilteredLinks = await page.evaluate((articleLinkClass) => {
   const div = document.querySelector(articleLinkClass);
   if (!div) return [];
   const anchors = div.querySelectorAll('a');
@@ -56,7 +41,44 @@ const links = await page.evaluate((articleLinkClass) => {
 await browser.close();
 
 
-// send links to reader
+/*fs.mkdir(`../${companyName}`, { recursive: true }, (err) => {
+  if (err) {
+      console.error('Error creating directory:', err);
+  } else {
+      console.log('Directory created successfully!');
+  }
+});
+
+fs.mkdir(`../${companyName}/toiData`, { recursive: true }, (err) => {
+  if (err) {
+      console.error('Error creating directory:', err);
+  } else {
+      console.log('Directory created successfully!');
+  }
+});
+*/
+
+
+
+const links = unfilteredLinks.filter(url => url.startsWith("https://timesofindia"));
+
+
+const linksJSON = links;
+
+
+const jsonString = JSON.stringify(linksJSON, null, 2);
+
+fs.writeFile(`../links.json`, jsonString, (err) => {
+  if (err) {
+    console.error('Error writing to file', err);
+    return;
+  }
+  console.log('Company data successfully written to companies.json');
+});
+
+
+
+
 exec(`node ${toiLinkReaderProgram} ${links}`, (error, stdout, stderr) => {
   if (error) {
     console.error(`Error executing index.js: ${error.message}`);
