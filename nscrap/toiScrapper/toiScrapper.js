@@ -5,7 +5,7 @@ const articleColoumnClass = '.tabs_common';
 const toiLinkReaderProgram = 'toiScrapper/toiLinkReader.js';
 
 // test Only
-const companyName = 'TCS';
+const companyName = 'Shyam Telecom Limited';
 
 
 // import dependencies
@@ -18,7 +18,7 @@ const browser = await puppeteer.launch();
 const page = await browser.newPage();
 page.setDefaultTimeout(60000);
 // go to timesOfIndia
-await page.goto(`https://timesofindia.indiatimes.com/topic/${companyName}`);
+await page.goto(`https://timesofindia.indiatimes.com/topic/${companyName} company`);
 
 await page.setViewport({width: 1080, height: 1024});
 
